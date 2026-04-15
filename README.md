@@ -1,4 +1,4 @@
-# 💧 DRIP: Voice-Activated AR Stylist
+# DRIP: Voice-Activated AR Stylist
 
 [![Built with Lens Studio](https://img.shields.io/badge/Built_with-Lens_Studio-yellow.svg)](https://ar.snap.com/lens-studio)
 [![Powered by Gen AI](https://img.shields.io/badge/Powered_by-Gen_AI-blue.svg)]()
