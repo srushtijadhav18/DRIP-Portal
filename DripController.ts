@@ -12,12 +12,12 @@ export class DripController extends BaseScriptComponent {
     @input optionBlack: SceneObject; 
     @input optionGrey: SceneObject;
     @input optionDress: SceneObject;   
-    @input optionLehenga: SceneObject; // Assign your festive suit model here
+    @input optionLehenga: SceneObject;
     @input optionGlasses: SceneObject; 
 
-    // Hologram references removed for stability.
+
     
-    private readonly GEMINI_API_KEY = "AIzaSyCFzv34cgl3dU42jYKwkwxYiJO7-O6iZjc";
+    private readonly GEMINI_API_KEY = "YOUR_API_KEY_HERE";
     private readonly GEMINI_URL = "https://generativelanguage.googleapis.com/v1/models/gemini-2.0-flash:generateContent?key=";
     
     // TRACK THE CONVERSATION: 0=idle, 1=gala_presenting, 2=gala_waiting, 3=mumbai_presenting, 4=done
@@ -26,21 +26,21 @@ export class DripController extends BaseScriptComponent {
     // Subtitle Typing State
     private currentSubtitleText: string = "";
     private subtitleTimer: number = 0;
-    private subtitleSpeed: number = 0.06; // SLOWER: Synced better with TTS pacing so it doesn't vanish too fast
+    private subtitleSpeed: number = 0.06; //synced better with TTS pacing so it doesn't vanish too fast
 
     onAwake() {
         print("DRIP Controller initialized! Waiting for your voice...");
         this.setupVoice();
 
-        // 1. Hide EVERYTHING at the start.
+        // 1.Hide evrything at the start.
         if (this.optionBlack) this.optionBlack.enabled = false;
         if (this.optionGrey) this.optionGrey.enabled = false;
         if (this.optionDress) this.optionDress.enabled = false;
         if (this.optionLehenga) this.optionLehenga.enabled = false;
         if (this.optionGlasses) this.optionGlasses.enabled = false;
-        if (this.subtitleText) this.subtitleText.text = ""; // Instantly clear the default word "Text"
+        if (this.subtitleText) this.subtitleText.text = ""; 
 
-        // 2. Subtitle Typing Hook (Updates text perfectly synced to clock)
+        // 2.subtitle typing hook 
         let typeEvent = this.createEvent("UpdateEvent");
         typeEvent.bind(() => {
             if (this.currentSubtitleText.length > 0) {
@@ -146,9 +146,8 @@ export class DripController extends BaseScriptComponent {
 
     private isProcessing: boolean = false; 
 
-    // ==========================================
     // SCENARIO A: THE GALA (Options)
-    // ==========================================
+
     runGalaSequence() {
         print("Starting Gala Sequence...");
         this.hideAllLooks();
@@ -159,7 +158,7 @@ export class DripController extends BaseScriptComponent {
         }
         
         this.speakResponse("... Accessing your digital wardrobe. Analyzing your fit profile for the Annual Corporate Gala.", () => {
-            // Show the garment only after the narration finishes (so it feels like "thinking").
+            
             if (this.optionBlack) this.optionBlack.enabled = true;
 
             this.speakResponse("... Candidate one is the classic black tuxedo. Fit profile check complete. You can verify the calibration values in your DRIP Wardrobe Studio portal.", () => {
@@ -176,9 +175,8 @@ export class DripController extends BaseScriptComponent {
         this.speakResponse("... Design confirmed. Would you like me to Remix the materials, find similar options online, or optionally prepare tech-pack handoff for your tailor?");
     }
 
-    // ==========================================
     // SCENARIO B: MUMBAI (Context + Face + Body)
-    // ==========================================
+  
     runMumbaiSequence() {
         print("Starting Mumbai Sequence...");
         this.hideAllLooks();
@@ -196,7 +194,7 @@ export class DripController extends BaseScriptComponent {
                 this.subtitleText.textFill.color = new vec4(0, 0, 0, 1);
             }
 
-            this.speakResponse("... I've retrieved a breathable upper from your collection. Fit profile check complete. Calibration is visible in your DRIP Wardrobe Studio portal. To protect your vision, I also recommend polarized optics from your physical closet.", () => {
+            this.speakResponse("... I've retrieved a breathable upper from your collection. It perfectly matches the current humidity index. To complete the look and protect your vision, I also recommend polarized optics.", () => {
                 this.conversationStep = 4; // Finished
             });
         });
@@ -213,7 +211,7 @@ export class DripController extends BaseScriptComponent {
             this.subtitleText.textFill.color = new vec4(1, 1, 1, 1);
         }
 
-        // CONVERSATIONAL PACED SCRIPT: Slow enough to feel "generated", short enough to not lag out.
+       
         let fullSpeech = "... Initiating Generative Canvas for Heritage attire. . . . . Analyzing texture parameters. . . . . Mapping cultural Desi motifs. . . . . Generation complete. . . Your Traditional look is now live on your mesh. . . Calibration sent to portal.";
         
         this.speakResponse(fullSpeech, () => {
@@ -221,7 +219,7 @@ export class DripController extends BaseScriptComponent {
             this.isProcessing = false;
         });
 
-        // Outfit reveals exactly when the AI says "Generation complete" (approx 6.0 seconds in)
+        // Outfit reveals exactly when the AI says "Generation complete" 
         let revealTimer = this.createEvent("DelayedCallbackEvent");
         revealTimer.bind(() => {
             if (this.optionLehenga) {
@@ -237,7 +235,7 @@ export class DripController extends BaseScriptComponent {
         print("Starting Festival Sequence...");
         this.hideAllLooks();
 
-        // Reset text color to WHITE
+        //reset text color to WHITE
         if (this.subtitleText) {
             this.subtitleText.textFill.color = new vec4(1, 1, 1, 1);
         }
@@ -259,7 +257,7 @@ export class DripController extends BaseScriptComponent {
         }
 
         this.speakResponse(festivalLine, () => {
-            // Add a small 0.8s pause to prevent audio clipping
+            
             let delay = this.createEvent("DelayedCallbackEvent");
             delay.bind(() => {
                 this.speakResponse("... Fit profile check complete. . . . . Biometric metrics are visible in your Wardrobe Studio portal. . . Would you like to Remix, try Budget Mode, or export to your tailor?");
@@ -277,7 +275,7 @@ export class DripController extends BaseScriptComponent {
     runShopSequence() {
         print("Opening Shopping Bridge...");
         this.speakResponse("... Querying trusted Indian fashion marketplaces for similar ready-to-wear patterns. Opening curated collection in your browser now.");
-        // Note: In Lens Studio, you can use launchUrl for external sites if approved
+        
     }
 
     runBudgetSequence() {
@@ -320,9 +318,7 @@ export class DripController extends BaseScriptComponent {
         }
     }
 
-    // ==========================================
     // HELPER FUNCTIONS
-    // ==========================================
     hideAllLooks() {
         if (this.optionBlack) this.optionBlack.enabled = false;
         if (this.optionGrey) this.optionGrey.enabled = false;
@@ -346,15 +342,15 @@ export class DripController extends BaseScriptComponent {
     }
 
     speakResponse(text: string, onComplete?: () => void) {
-        // Prepare text; show subtitles with typewriter animation immediately.
+        //prepare text; show subtitles with typewriter animation immediately.
         let cleanText = text.replace(/\. \. \./g, "").replace(/\.\.\./g, "").trim(); 
         
-        // Auto-wrap text for a 9:16 vertical screen (approx 25 chars per line)
+        //auto-wrap text for a 9:16 vertical screen (approx 25 chars per line)
         let words = cleanText.split(" ");
         let wrappedText = "";
         let lineLength = 0;
         for (let word of words) {
-            if (lineLength + word.length > 22) { // Slightly narrower for safety
+            if (lineLength + word.length > 22) { // sslightly narrower for safety
                 wrappedText += "\n" + word + " ";
                 lineLength = word.length + 1;
             } else {
@@ -364,7 +360,7 @@ export class DripController extends BaseScriptComponent {
         }
         var finalWrappedText = wrappedText.trim();
 
-        // Clear the screen text immediately while we wait for cloud TTS to generate audio
+        // clear the screen text immediately while we wait for cloud TTS to generate audio
         if (this.subtitleText) {
             this.subtitleText.text = "";
         }
@@ -397,7 +393,7 @@ export class DripController extends BaseScriptComponent {
             }
         }, (error: number, desc: string) => {
             print("TTS error [" + error + "]: " + desc);
-            // If audio fails, still trigger the callback so the demo continues
+            // If audio fails, still trigger the callback 
             if (onComplete) {
                 let failTimer = this.createEvent("DelayedCallbackEvent");
                 failTimer.bind(() => onComplete());
