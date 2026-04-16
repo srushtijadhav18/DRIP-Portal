@@ -472,8 +472,7 @@
                 </span>
             </div>
 
-            <p class="status-msg">Profile is generated from your inputs (Height/Weight) to keep estimates stable and
-                demo-safe. Spectacles alignment can further stabilize the AR overlay in a full build.</p>
+            <p class="status-msg">Profile is generated from your inputs (Height/Weight) to keep estimates stable. Spectacles alignment can further stabilize the AR overlay in a full build.</p>
 
             <div style="margin-top: 18px; padding-top: 18px; border-top: 1px solid rgba(255,255,255,0.08);">
                 <div style="color: var(--text-dim); font-size: 0.9rem; margin-bottom: 10px;">Your Design Intent (what
@@ -561,7 +560,7 @@
             </div>
 
             <p style="color: var(--text-dim); font-size: 0.9rem; line-height: 1.6; margin-top: 14px;">
-                Connection (for judges): Spectacles streams your body-aligned view to the Lens. DRIP generates a stable
+                Connection: Spectacles streams your body-aligned view to the Lens. DRIP generates a stable
                 fit profile + blueprint. This page is the user-facing studio to review, customize, and export your
                 build.
             </p>
@@ -598,7 +597,6 @@
         </div>
     </div>
 
-    <!-- ===================== AI DESIGN BRIEF ===================== -->
     <div class="brief-section">
         <div class="brief-header">
             <div>
@@ -616,7 +614,7 @@
 
     <script>
         const STORAGE_KEY = "drip_profile_v1";
-        const GEMINI_API_KEY = "AIzaSyCFzv34cgl3dU42jYKwkwxYiJO7-O6iZjc";
+        const GEMINI_API_KEY = "your_api_key_here"; 
 
         async function generateDesignBrief() {
             const promptEl = document.getElementById('designPromptInput');
@@ -666,14 +664,13 @@
                 const data = await response.json();
                 const rawText = data?.candidates?.[0]?.content?.parts?.[0]?.text || '';
 
-                // Strip any markdown code fences the model might add
                 const jsonStr = rawText.replace(/```json?/g, '').replace(/```/g, '').trim();
                 const brief = JSON.parse(jsonStr);
 
                 renderBrief(brief, fullPrompt);
 
             } catch (e) {
-                // API failed — silently use offline template so demo never breaks
+                // API failed — use offline template
                 console.warn('Gemini API failed, using offline brief:', e.message);
                 renderBrief(generateOfflineBrief(fullPrompt), fullPrompt);
             } finally {
@@ -887,7 +884,7 @@
             return Number.isFinite(n) ? n : fallback;
         }
 
-        // DYNAMIC MEASUREMENT CALCULATION FOR DEMO
+        // DYNAMIC MEASUREMENT CALCULATION
         function recalculateMetrics() {
             let h = parseFloat(document.getElementById('heightInput').value) || 172;
             let w = parseFloat(document.getElementById('weightInput').value) || 68;
@@ -935,7 +932,7 @@
         }
 
         function copyTextToClipboard(text) {
-            // Clipboard API can fail for local file contexts; keep a robust fallback.
+            // clipboard API can fail for local file contexts;keep a robust fallback.
             try {
                 if (navigator.clipboard && window.isSecureContext) {
                     return navigator.clipboard.writeText(text);
@@ -1095,7 +1092,7 @@ Tailor Notes: ${window._lastBrief.tailor_instructions}
         }
 
         // =============================================
-        // LIVE WEATHER (Open-Meteo, no API key needed)
+        // LIVE WEATHER (Open-Meteo)
         // Mumbai fallback: lat 19.076, lon 72.877
         // =============================================
         function getFabricAdvice(temp, humidity) {
