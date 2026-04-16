@@ -41,7 +41,7 @@ DRIP bridges the gap between digital AR discovery and physical bespoke tailoring
 4. Tap the spectacle frame and speak your intent.
 
 ### Wardrobe Portal
-1. Open `tailor_portal.html` in any modern web browser (no local server required).
+1. Open `index.html` in any modern web browser (no local server required).
 2. Allow Location Services to enable live weather/fabric context matching.
 3. Use the **AI Generation** tab and try sending a brief via the WhatsApp bridge.
 
