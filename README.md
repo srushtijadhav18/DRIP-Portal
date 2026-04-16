@@ -23,7 +23,7 @@ DRIP bridges the gap between digital AR discovery and physical bespoke tailoring
 
 ---
 
-## 🛠 Tech Stack
+## Tech Stack
 - **Hardware:** Snap Spectacles
 - **AR Software:** Snap Lens Studio (TypeScript, VoiceML, Text-to-Speech Module, Body Tracking)
 - **Portal Core:** HTML5, Vanilla JS, CSS Glassmorphism
